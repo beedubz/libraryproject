@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Library</title>
+  </head>
+  <body>
+    <div id="book-list">Book List</div>
+    <button id="open-book-dialog-btn">Add Book</button>
+    <dialog id="book-dialog">
+      <h3>Add a Bookie, Snookie!</h3>
+      <form id="book-form">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required />
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author" />
+        <label for="pages">Pages:</label>
+        <input type="number" id="pages" name="pages" />
+        <p>Have you read it?</p>
+
+        <input type="radio" id="yes" name="read" value="Yes " />
+        <label for="yes">Yes</label>
+
+        <input type="radio" id="no" name="read" value="No " checked />
+        <label for="no">No</label>
+        <p></p>
+        <button type="submit" id="submit">Submit</button>
+        <button type="button" id="close-book-dialog-btn">Cancel</button>
+      </form>
+    </dialog>
+    <script src="code.js"></script>
+  </body>
+</html>
