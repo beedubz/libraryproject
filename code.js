@@ -28,17 +28,61 @@ function showBooks() {
   myLibrary.forEach((book) => {
     const bookDisplay = document.createElement("div");
     bookDisplay.dataset.bookId = book.id;
-    bookDisplay.textContent = `Title: ${book.title}, Author: ${book.author}, Pages: ${book.pages}, Read: ${book.read}`;
+
+    const bookInfo = document.createElement("p");
+    bookInfo.textContent = `Title: ${book.title}, Author: ${book.author}, Pages: ${book.pages}`;
+    bookDisplay.appendChild(bookInfo);
+
+    const readStatusContainer = document.createElement("div");
+    readStatusContainer.textContent = "Have you read it? ";
+    const radioGroupName = `read-status-${book.id}`;
+
+    const yesRadio = document.createElement("input");
+    yesRadio.type = "radio";
+    yesRadio.name = radioGroupName;
+    yesRadio.value = "Yes";
+    if (book.read === "Yes") {
+      yesRadio.checked = true; // Check this button if the book is read
+    }
+    const yesLabel = document.createElement("label");
+    yesLabel.textContent = "Yes";
+
+    const noRadio = document.createElement("input");
+    noRadio.type = "radio";
+    noRadio.name = radioGroupName;
+    noRadio.value = "No";
+    if (book.read === "No") {
+      noRadio.checked = true; // Check this button if not read
+    }
+    const noLabel = document.createElement("label");
+    noLabel.textContent = "No";
+
+    readStatusContainer.appendChild(yesRadio);
+    readStatusContainer.appendChild(yesLabel);
+    readStatusContainer.appendChild(noRadio);
+    readStatusContainer.appendChild(noLabel);
+
+    bookDisplay.appendChild(readStatusContainer);
+
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
     deleteButton.classList.add("delete-btn");
     bookDisplay.appendChild(deleteButton);
+
     bookList.appendChild(bookDisplay);
   });
 }
 
 function deleteBook(bookId) {
   myLibrary = myLibrary.filter((book) => book.id !== bookId);
+  showBooks();
+}
+
+function updateReadStatus(bookId, newStatus) {
+  const bookToUpdate = myLibrary.find((book) => book.id === bookId);
+  if (bookToUpdate) {
+    bookToUpdate.read = newStatus;
+  }
   showBooks();
 }
 
@@ -77,5 +121,14 @@ bookList.addEventListener("click", (event) => {
       event.target.closest("[data-book-id]").dataset.bookId;
 
     deleteBook(bookIdToDelete);
+  } else if (
+    event.target.type === "radio" &&
+    event.target.name.startsWith("read-status-")
+  ) {
+    const bookIdToUpdate =
+      event.target.closest("[data-book-id]").dataset.bookId;
+    const newReadStatus = event.target.value;
+
+    updateReadStatus(bookIdToUpdate, newReadStatus);
   }
 });
